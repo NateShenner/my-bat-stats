@@ -1,0 +1,295 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/shalebgnew"
+    tools:context=".AddGameActivity" >
+
+    <TextView
+        android:id="@+id/lbl_newgame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="@string/label_newgame"
+        android:textColor="#585858"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_season"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lbl_newgame"
+        android:text="@string/label_season"
+        android:textColor="#585858"
+        android:gravity="center_vertical"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/txt_season"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lbl_newgame"
+        android:layout_toRightOf="@id/lbl_season"
+        android:inputType="number" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/lbl_atbats"
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_season"
+        android:layout_marginRight="1dp"
+        android:paddingTop="15dp"
+        android:text="@string/label_atbats"
+        android:textColor="#585858"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_atbats"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_season"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/lbl_atbats"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="show"
+        android:paddingTop="15dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_hits"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_season"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="1dp"
+        android:layout_toRightOf="@id/txt_atbats"
+        android:paddingTop="15dp"
+        android:text="@string/label_hits"
+        android:textColor="#585858"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_hits"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_season"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/lbl_hits"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="show"
+        android:paddingTop="15dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_runs"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_season"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="1dp"
+        android:layout_toRightOf="@id/txt_hits"
+        android:paddingTop="15dp"
+        android:text="@string/label_runs"
+        android:textColor="#585858"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_runs"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_season"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/lbl_runs"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="show"
+        android:paddingTop="15dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_rbis"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_season"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="1dp"
+        android:layout_toRightOf="@id/txt_runs"
+        android:paddingTop="15dp"
+        android:text="@string/label_rbis"
+        android:textColor="#585858"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_rbis"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_season"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/lbl_rbis"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="show"
+        android:paddingTop="15dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_walk"
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_atbats"
+        android:layout_marginRight="1dp"
+        android:paddingTop="25dp"
+        android:text="@string/label_walk"
+        android:textColor="#585858"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_walk"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_atbats"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/lbl_walk"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="show"
+        android:paddingTop="25dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_sac"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_atbats"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="1dp"
+        android:layout_toRightOf="@id/txt_walk"
+        android:paddingTop="25dp"
+        android:text="@string/label_sac"
+        android:textColor="#585858"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_sac"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_atbats"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/lbl_sac"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="show"
+        android:paddingTop="25dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_double"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_walk"
+        android:layout_marginRight="1dp"
+        android:paddingTop="25dp"
+        android:text="@string/label_double"
+        android:textColor="#585858"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_double"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_walk"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/lbl_double"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="show"
+        android:paddingTop="25dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_triple"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_walk"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="1dp"
+        android:layout_toRightOf="@id/txt_double"
+        android:paddingTop="25dp"
+        android:text="@string/label_triple"
+        android:textColor="#585858"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_triple"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_walk"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/lbl_triple"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="show"
+        android:paddingTop="25dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lbl_hr"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_walk"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="1dp"
+        android:layout_toRightOf="@id/txt_triple"
+        android:paddingTop="25dp"
+        android:text="@string/label_hr"
+        android:textColor="#585858"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/txt_hr"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_walk"
+        android:layout_centerInParent="true"
+        android:layout_toRightOf="@id/lbl_hr"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="show"
+        android:paddingTop="25dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btn_addplayer"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lbl_double"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/button_savetransparent" />
+
+</RelativeLayout>
