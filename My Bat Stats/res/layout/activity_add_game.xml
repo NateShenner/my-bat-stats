@@ -5,291 +5,431 @@
     android:background="@drawable/shalebgnew"
     tools:context=".AddGameActivity" >
 
-    <TextView
-        android:id="@+id/lbl_newgame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
-        android:text="@string/label_newgame"
-        android:textColor="#585858"
-        android:textSize="18sp"
-        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/lbl_season"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lbl_newgame"
         android:text="@string/label_season"
         android:textColor="#585858"
         android:gravity="center_vertical"
+        android:paddingTop="30dp"
         android:textSize="20sp" />
 
     <EditText
         android:id="@+id/txt_season"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lbl_newgame"
         android:layout_toRightOf="@id/lbl_season"
+        android:paddingTop="30dp"
         android:inputType="number" >
-
         <requestFocus />
     </EditText>
 
-    <TextView
-        android:id="@+id/lbl_atbats"
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_season"
-        android:layout_marginRight="1dp"
-        android:paddingTop="15dp"
-        android:text="@string/label_atbats"
-        android:textColor="#585858"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txt_atbats"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_season"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/lbl_atbats"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="show"
-        android:paddingTop="15dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lbl_hits"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_season"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="1dp"
-        android:layout_toRightOf="@id/txt_atbats"
-        android:paddingTop="15dp"
-        android:text="@string/label_hits"
-        android:textColor="#585858"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txt_hits"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_season"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/lbl_hits"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="show"
-        android:paddingTop="15dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lbl_runs"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_season"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="1dp"
-        android:layout_toRightOf="@id/txt_hits"
-        android:paddingTop="15dp"
-        android:text="@string/label_runs"
-        android:textColor="#585858"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txt_runs"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_season"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/lbl_runs"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="show"
-        android:paddingTop="15dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lbl_rbis"
-        android:layout_width="35dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_season"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="1dp"
-        android:layout_toRightOf="@id/txt_runs"
-        android:paddingTop="15dp"
-        android:text="@string/label_rbis"
-        android:textColor="#585858"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txt_rbis"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_season"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/lbl_rbis"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="show"
-        android:paddingTop="15dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lbl_walk"
-        android:layout_width="55dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_atbats"
-        android:layout_marginRight="1dp"
-        android:paddingTop="25dp"
-        android:text="@string/label_walk"
-        android:textColor="#585858"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txt_walk"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_atbats"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/lbl_walk"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="show"
-        android:paddingTop="25dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lbl_sac"
-        android:layout_width="125dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_atbats"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="1dp"
-        android:layout_toRightOf="@id/txt_walk"
-        android:paddingTop="25dp"
-        android:text="@string/label_sac"
-        android:textColor="#585858"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txt_sac"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_atbats"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/lbl_sac"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="show"
-        android:paddingTop="25dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lbl_double"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_walk"
-        android:layout_marginRight="1dp"
-        android:paddingTop="25dp"
-        android:text="@string/label_double"
-        android:textColor="#585858"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txt_double"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_walk"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/lbl_double"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="show"
-        android:paddingTop="25dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lbl_triple"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_walk"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="1dp"
-        android:layout_toRightOf="@id/txt_double"
-        android:paddingTop="25dp"
-        android:text="@string/label_triple"
-        android:textColor="#585858"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txt_triple"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_walk"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/lbl_triple"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="show"
-        android:paddingTop="25dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lbl_hr"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_walk"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="1dp"
-        android:layout_toRightOf="@id/txt_triple"
-        android:paddingTop="25dp"
-        android:text="@string/label_hr"
-        android:textColor="#585858"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/txt_hr"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_walk"
-        android:layout_centerInParent="true"
-        android:layout_toRightOf="@id/lbl_hr"
-        android:clickable="true"
-        android:gravity="center"
-        android:onClick="show"
-        android:paddingTop="25dp"
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <Button
+    <!-- <Button
         android:id="@+id/btn_addplayer"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/lbl_double"
+        android:layout_toRightOf="@id/txt_season"
+        android:paddingLeft="40dp"
         android:layout_marginTop="40dp"
-        android:background="@drawable/button_savetransparent" />
+        android:background="@drawable/button_savetransparent" />-->
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/lbl_season"
+        android:paddingTop="10dp"
+        android:stretchColumns="1">
+        <!-- Plate Appearances -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_pa"
+                android:text="@string/label_pa"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_pa"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_pa"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_pa"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+		<!-- Hits -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_hits"
+                android:text="@string/label_hits"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_hits"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_hits"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_hits"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+        <!-- Runs -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_runs"
+                android:text="@string/label_runs"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_runs"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_runs"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_runs"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+        <!-- Rbis -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_rbis"
+                android:text="@string/label_rbis"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_rbis"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_rbis"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_rbis"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+        <!-- Strikeouts -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_k"
+                android:text="@string/label_k"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_k"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_k"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_k"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+        <!-- Walks -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_walk"
+                android:text="@string/label_walk"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_walk"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_walk"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_walk"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+		<!-- Sacrifices -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_sac"
+                android:text="@string/label_sac"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_sac"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_sac"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_sac"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+        <!-- Hit By Pitch -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_hbp"
+                android:text="@string/label_hbp"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_hbp"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_hbp"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_hbp"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+        <!-- Doubles -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_double"
+                android:text="@string/label_double"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_double"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_double"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_double"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+        <!-- Triples -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_triple"
+                android:text="@string/label_triple"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_triple"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_triple"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_triple"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+        <!-- Homeruns -->
+        <TableRow android:paddingRight="15dp">
+            <TextView
+                android:id="@+id/lbl_hr"
+                android:text="@string/label_hr"
+                android:textSize="25sp"
+                android:layout_width="245dp"
+                android:padding="3dip" />
+            <ImageButton
+                android:id="@+id/btn_minus_hr"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_minus_transparent"/>
+
+            <TextView
+                android:id="@+id/txt_hr"
+                android:clickable="true"
+                android:onClick="show"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_width="50dp"
+                android:layout_gravity="center"
+                android:textStyle="bold"               
+        		android:gravity="center" />
+            
+            <ImageButton
+                android:id="@+id/btn_plus_hr"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_plus_transparent"/>
+        </TableRow>
+    </TableLayout>
+
+
+    
 
 </RelativeLayout>

@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -31,12 +33,14 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	private Player curPlayer;
 
 	private int season;
-	private int atbats;
+	private int pa;
 	private int hits;
 	private int runs;
 	private int rbis;
+	private int ks;
 	private int walks;
 	private int sac;
+	private int hbp;
 	private int doub;
 	private int triple;
 	private int homerun;
@@ -44,17 +48,42 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	private TextView curTextView;
 	private TextView newgameText;
 	private EditText seasonText;
-	private TextView atbatText;
+	private TextView paText;
 	private TextView hitText;
 	private TextView runText;
 	private TextView rbiText;
+	private TextView kText;
 	private TextView walkText;
 	private TextView sacText;
+	private TextView hbpText;
 	private TextView doubText;
 	private TextView tripleText;
 	private TextView hrText;
 
 	// buttons
+	private ImageButton btn_PA_Plus;
+	private ImageButton btn_PA_Minus;
+	private ImageButton btn_Hits_Plus;
+	private ImageButton btn_Hits_Minus;
+	private ImageButton btn_Runs_Plus;
+	private ImageButton btn_Runs_Minus;
+	private ImageButton btn_Rbis_Plus;
+	private ImageButton btn_Rbis_Minus;
+	private ImageButton btn_k_Plus;
+	private ImageButton btn_k_Minus;
+	private ImageButton btn_walk_Plus;
+	private ImageButton btn_walk_Minus;
+	private ImageButton btn_sac_Plus;
+	private ImageButton btn_sac_Minus;
+	private ImageButton btn_hbp_Plus;
+	private ImageButton btn_hbp_Minus;
+	private ImageButton btn_double_Plus;
+	private ImageButton btn_double_Minus;
+	private ImageButton btn_triple_Plus;
+	private ImageButton btn_triple_Minus;
+	private ImageButton btn_hr_Plus;
+	private ImageButton btn_hr_Minus;
+	
 	private Button btn_AddGame;
 
 	@Override
@@ -63,10 +92,9 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_add_game);
 		db = new BatStatsDBHelper(this);
 		db.open();
-		// set listeners
-		btn_AddGame = (Button) findViewById(R.id.btn_addplayer);
-		btn_AddGame.setOnClickListener(this);
 
+		setButtons();
+		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			playerID = extras.getLong("PLAYER_ID");
@@ -76,6 +104,57 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		setDefaults();
 		updateStats();
 
+	}
+	
+	private void setButtons(){
+		//set Buttons
+		btn_PA_Plus = (ImageButton) findViewById(R.id.btn_plus_pa);
+		btn_PA_Minus = (ImageButton) findViewById(R.id.btn_minus_pa);
+		btn_Hits_Plus = (ImageButton) findViewById(R.id.btn_plus_hits);
+		btn_Hits_Minus = (ImageButton) findViewById(R.id.btn_minus_hits);
+		btn_Runs_Plus = (ImageButton) findViewById(R.id.btn_plus_runs);
+		btn_Runs_Minus = (ImageButton) findViewById(R.id.btn_minus_runs);
+		btn_Rbis_Plus = (ImageButton) findViewById(R.id.btn_plus_rbis);
+		btn_Rbis_Minus = (ImageButton) findViewById(R.id.btn_minus_rbis);
+		btn_k_Plus = (ImageButton) findViewById(R.id.btn_plus_k);
+		btn_k_Minus = (ImageButton) findViewById(R.id.btn_minus_k);
+		btn_walk_Plus = (ImageButton) findViewById(R.id.btn_plus_walk);
+		btn_walk_Minus = (ImageButton) findViewById(R.id.btn_minus_walk);
+		btn_sac_Plus = (ImageButton) findViewById(R.id.btn_plus_sac);
+		btn_sac_Minus = (ImageButton) findViewById(R.id.btn_minus_sac);
+		btn_hbp_Plus = (ImageButton) findViewById(R.id.btn_plus_hbp);
+		btn_hbp_Minus = (ImageButton) findViewById(R.id.btn_minus_hbp);
+		btn_double_Plus = (ImageButton) findViewById(R.id.btn_plus_double);
+		btn_double_Minus = (ImageButton) findViewById(R.id.btn_minus_double);
+		btn_triple_Plus = (ImageButton) findViewById(R.id.btn_plus_triple);
+		btn_triple_Minus = (ImageButton) findViewById(R.id.btn_minus_triple);
+		btn_hr_Plus = (ImageButton) findViewById(R.id.btn_plus_hr);
+		btn_hr_Minus = (ImageButton) findViewById(R.id.btn_minus_hr);
+		
+		
+		//add listeners
+		btn_PA_Plus.setOnClickListener(this);
+		btn_PA_Minus.setOnClickListener(this);
+		btn_Hits_Plus.setOnClickListener(this);
+		btn_Hits_Minus.setOnClickListener(this);
+		btn_Runs_Plus.setOnClickListener(this);
+		btn_Runs_Minus.setOnClickListener(this);
+		btn_Rbis_Plus.setOnClickListener(this);
+		btn_Rbis_Minus.setOnClickListener(this);
+		btn_k_Plus.setOnClickListener(this);
+		btn_k_Minus.setOnClickListener(this);
+		btn_walk_Plus.setOnClickListener(this);
+		btn_walk_Minus.setOnClickListener(this);
+		btn_sac_Plus.setOnClickListener(this);
+		btn_sac_Minus.setOnClickListener(this);
+		btn_hbp_Plus.setOnClickListener(this);
+		btn_hbp_Minus.setOnClickListener(this);
+		btn_double_Plus.setOnClickListener(this);
+		btn_double_Minus.setOnClickListener(this);
+		btn_triple_Plus.setOnClickListener(this);
+		btn_triple_Minus.setOnClickListener(this);
+		btn_hr_Plus.setOnClickListener(this);
+		btn_hr_Minus.setOnClickListener(this);
 	}
 
 	@Override
@@ -87,15 +166,15 @@ public class AddGameActivity extends Activity implements OnClickListener {
 
 	private void setDefaults() {
 
-		newgameText = (TextView) findViewById(R.id.lbl_newgame);
-		newgameText.append(" : " + curPlayer.getName());
+		//newgameText = (TextView) findViewById(R.id.lbl_newgame);
+		//newgameText.append(" : " + curPlayer.getName());
 
 		seasonText = (EditText) findViewById(R.id.txt_season);
 		seasonText.setText("" + Calendar.getInstance().get(Calendar.YEAR));
 
-		atbatText = (TextView) findViewById(R.id.txt_atbats);
-		atbatText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-		atbatText.setText("0");
+		paText = (TextView) findViewById(R.id.txt_pa);
+		paText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+		paText.setText("0");
 
 		hitText = (TextView) findViewById(R.id.txt_hits);
 		hitText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -108,6 +187,10 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		rbiText = (TextView) findViewById(R.id.txt_rbis);
 		rbiText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
 		rbiText.setText("0");
+		
+		kText = (TextView) findViewById(R.id.txt_k);
+		kText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+		kText.setText("0");
 
 		walkText = (TextView) findViewById(R.id.txt_walk);
 		walkText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -116,6 +199,10 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		sacText = (TextView) findViewById(R.id.txt_sac);
 		sacText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
 		sacText.setText("0");
+		
+		hbpText = (TextView) findViewById(R.id.txt_hbp);
+		hbpText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+		hbpText.setText("0");
 
 		doubText = (TextView) findViewById(R.id.txt_double);
 		doubText.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -134,12 +221,14 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		try {
 
 			season = Integer.parseInt(seasonText.getText().toString());
-			atbats = Integer.parseInt(atbatText.getText().toString());
+			pa = Integer.parseInt(paText.getText().toString());
 			hits = Integer.parseInt(hitText.getText().toString());
 			runs = Integer.parseInt(runText.getText().toString());
 			rbis = Integer.parseInt(rbiText.getText().toString());
+			ks = Integer.parseInt(kText.getText().toString());
 			walks = Integer.parseInt(walkText.getText().toString());
 			sac = Integer.parseInt(sacText.getText().toString());
+			hbp = Integer.parseInt(hbpText.getText().toString());
 			doub = Integer.parseInt(doubText.getText().toString());
 			triple = Integer.parseInt(tripleText.getText().toString());
 			homerun = Integer.parseInt(hrText.getText().toString());
@@ -159,31 +248,31 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	}
 
 	private boolean validateStats() {
-		if (hits > atbats) {
+		if (hits > pa) {
 			Toast.makeText(getApplicationContext(),
 					"Hits cannot be greater than At Bats", Toast.LENGTH_LONG)
 					.show();
 			return false;
 		}
-		if ((doub > atbats) || (doub > hits)) {
+		if ((doub > pa) || (doub > hits)) {
 			Toast.makeText(getApplicationContext(),
 					"Double cannot be greater Than At Bats/Hits",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if ((triple > atbats) || (triple > hits)) {
+		if ((triple > pa) || (triple > hits)) {
 			Toast.makeText(getApplicationContext(),
 					"Triple cannot be greater Than At Bats/Hits",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if ((homerun > atbats) || (homerun > hits)) {
+		if ((homerun > pa) || (homerun > hits)) {
 			Toast.makeText(getApplicationContext(),
 					"Homerun cannot be greater Than At Bats/Hits",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if (((doub + triple + homerun) > atbats)
+		if (((doub + triple + homerun) > pa)
 				|| ((doub + triple + homerun) > hits)) {
 			Toast.makeText(
 					getApplicationContext(),
@@ -199,26 +288,26 @@ public class AddGameActivity extends Activity implements OnClickListener {
 
 		if (updateStats()) {
 
-			try{
-				PlayerStats currentStats = db.getPlayerStatsbyPlayerIDandSeason(
-						playerID, season);
-				
-				if (currentStats != null) {
-					db.updatePlayerStats(playerID, season,
-							atbats + currentStats.getAtBat(),
-							hits + currentStats.getHit(),
-							runs + currentStats.getRun(),
-							rbis + currentStats.getRBI(),
-							walks + currentStats.getWalk(),
-							sac + currentStats.getWalk(),
-							doub + currentStats.getDouble(),
-							triple + currentStats.getTriple(), homerun
-									+ currentStats.getHomerun());
-				}
-			}catch(CursorIndexOutOfBoundsException e1){
-				db.insertPlayerStats(playerID, season, atbats, hits, runs,
-						rbis, walks, sac, doub, triple, homerun);
-			}
+//			try{
+//				PlayerStats currentStats = db.getPlayerStatsbyPlayerIDandSeason(
+//						playerID, season);
+//				
+//				if (currentStats != null) {
+//					db.updatePlayerStats(playerID, season,
+//							atbats + currentStats.getAtBat(),
+//							hits + currentStats.getHit(),
+//							runs + currentStats.getRun(),
+//							rbis + currentStats.getRBI(),
+//							walks + currentStats.getWalk(),
+//							sac + currentStats.getWalk(),
+//							doub + currentStats.getDouble(),
+//							triple + currentStats.getTriple(), homerun
+//									+ currentStats.getHomerun());
+//				}
+//			}catch(CursorIndexOutOfBoundsException e1){
+//				db.insertPlayerStats(playerID, season, atbats, hits, runs,
+//						rbis, walks, sac, doub, triple, homerun);
+//			}
 			
 
 			db.close();
@@ -230,7 +319,8 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View arg0) {
 		// If add button was clicked
-		if (btn_AddGame.isPressed()) {
+		
+		/**if (btn_AddGame.isPressed()) {
 
 			if (addGame()) {
 				Intent intent = new Intent(getBaseContext(),
@@ -240,7 +330,72 @@ public class AddGameActivity extends Activity implements OnClickListener {
 				startActivity(intent);
 				this.finish();
 			}
-
+		}**/
+		if(btn_PA_Plus.isPressed() && !paText.getText().toString().equals("10")){
+			paText.setText( (Integer.parseInt(paText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_PA_Minus.isPressed() && !paText.getText().toString().equals("0")){
+				paText.setText( (Integer.parseInt(paText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_Hits_Plus.isPressed() && !hitText.getText().toString().equals("10")){
+			hitText.setText( (Integer.parseInt(hitText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_Hits_Minus.isPressed() && !hitText.getText().toString().equals("0")){
+				hitText.setText( (Integer.parseInt(hitText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_Runs_Plus.isPressed() && !runText.getText().toString().equals("10")){
+			runText.setText( (Integer.parseInt(runText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_Runs_Minus.isPressed() && !runText.getText().toString().equals("0")){
+				runText.setText( (Integer.parseInt(runText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_Rbis_Plus.isPressed() && !rbiText.getText().toString().equals("10")){
+			rbiText.setText( (Integer.parseInt(rbiText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_Rbis_Minus.isPressed() && !rbiText.getText().toString().equals("0")){
+				rbiText.setText( (Integer.parseInt(rbiText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_k_Plus.isPressed() && !kText.getText().toString().equals("10")){
+			kText.setText( (Integer.parseInt(kText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_k_Minus.isPressed() && !kText.getText().toString().equals("0")){
+				kText.setText( (Integer.parseInt(kText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_walk_Plus.isPressed() && !walkText.getText().toString().equals("10")){
+			walkText.setText( (Integer.parseInt(walkText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_walk_Minus.isPressed() && !walkText.getText().toString().equals("0")){
+				walkText.setText( (Integer.parseInt(walkText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_sac_Plus.isPressed() && !sacText.getText().toString().equals("10")){
+			sacText.setText( (Integer.parseInt(sacText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_sac_Minus.isPressed() && !sacText.getText().toString().equals("0")){
+				sacText.setText( (Integer.parseInt(sacText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_hbp_Plus.isPressed() && !hbpText.getText().toString().equals("10")){
+			hbpText.setText( (Integer.parseInt(hbpText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_hbp_Minus.isPressed() && !hbpText.getText().toString().equals("0")){
+				hbpText.setText( (Integer.parseInt(hbpText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_double_Plus.isPressed() && !doubText.getText().toString().equals("10")){
+			doubText.setText( (Integer.parseInt(doubText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_double_Minus.isPressed() && !doubText.getText().toString().equals("0")){
+				doubText.setText( (Integer.parseInt(doubText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_triple_Plus.isPressed() && !tripleText.getText().toString().equals("10")){
+			tripleText.setText( (Integer.parseInt(tripleText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_triple_Minus.isPressed() && !tripleText.getText().toString().equals("0")){
+				tripleText.setText( (Integer.parseInt(tripleText.getText().toString()) - 1 ) + "");
+		}
+		else if(btn_hr_Plus.isPressed() && !doubText.getText().toString().equals("10")){
+			hrText.setText( (Integer.parseInt(doubText.getText().toString()) + 1 ) + "");
+		}
+		else if(btn_hr_Minus.isPressed() && !hrText.getText().toString().equals("0")){
+				hrText.setText( (Integer.parseInt(hrText.getText().toString()) - 1 ) + "");
 		}
 
 	}
@@ -258,10 +413,10 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		// Determine which TextView was clicked.
 		String screenTitle = "";
 
-		if (v.getId() == R.id.txt_atbats) {
+		if (v.getId() == R.id.txt_pa) {
 		
-			curTextView = atbatText;
-			screenTitle = "At Bats";
+			curTextView = paText;
+			screenTitle = "Plate Appearances";
 		}
 		else if(v.getId() == R.id.txt_hits){
 			curTextView = hitText;
@@ -276,6 +431,10 @@ public class AddGameActivity extends Activity implements OnClickListener {
 			curTextView = rbiText;
 			screenTitle = "RBI";
 		}
+		else if(v.getId() == R.id.txt_k){
+			curTextView = kText;
+			screenTitle = "Strikeouts";
+		}
 		else if(v.getId() == R.id.txt_walk){
 			curTextView = walkText;
 			screenTitle = "Walks";
@@ -283,6 +442,10 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		else if(v.getId() == R.id.txt_sac){
 			curTextView = sacText;
 			screenTitle = "Sacrifice Hits";
+		}
+		else if(v.getId() == R.id.txt_hbp){
+			curTextView = hbpText;
+			screenTitle = "Hit By Pitch";
 		}
 		else if(v.getId() == R.id.txt_double){
 			curTextView = doubText;

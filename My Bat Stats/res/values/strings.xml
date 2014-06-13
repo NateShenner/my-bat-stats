@@ -14,22 +14,25 @@
     <string name="title_game_log">Game Log</string>
 
     <!-- Labels -->
-    <string name="label_version">V1.2</string>
+    <string name="label_version">V2.0</string>
     <string name="label_playername">Player Name</string>
     <string name="label_teamname">Team Name</string>
     <string name="label_playerpic">Player Picture</string>
     <string name="label_confirm">Confirm</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_season">Season</string>
+    <string name="label_pa">Plate Appearances</string>
     <string name="label_atbats">At Bats</string>
     <string name="label_hits">Hits</string>
     <string name="label_runs">Runs</string>
-    <string name="label_rbis">RBI</string>
+    <string name="label_rbis">Runs Batted In</string>
+    <string name="label_k">Strikeouts</string>
     <string name="label_walk">Walks</string>
     <string name="label_sac">Sacrifice Hits</string>
-    <string name="label_double">2B</string>
-    <string name="label_triple">3B</string>
-    <string name="label_hr">HR</string>
+    <string name="label_hbp">Hit By Pitch</string>
+    <string name="label_double">Doubles</string>
+    <string name="label_triple">Triples</string>
+    <string name="label_hr">Homeruns</string>
     <string name="label_newgame">New Game</string>
     <string name="title_statstable">Stats</string>
     <string name="title_calcstatstable">Calculated Stats</string>
