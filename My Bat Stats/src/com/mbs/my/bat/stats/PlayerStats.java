@@ -145,7 +145,7 @@ public class PlayerStats {
 	public double calcOBP(){
 		double curOBP = .000;
 		if(getAtBat() != 0){
-			curOBP = (double)(getHit() + getWalk()) / (double)(getAtBat() + getWalk() + getSacrifice());
+			curOBP = (double)(getHit() + getWalk() + getHBP()) / (double)(getAtBat() + getWalk() + getHBP() + getSacrifice());
 		}
 		return curOBP;
 	}

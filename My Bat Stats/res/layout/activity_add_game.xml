@@ -8,12 +8,13 @@
 
     <TextView
         android:id="@+id/lbl_season"
-        android:layout_width="70dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="@string/label_season"
         android:textColor="#585858"
         android:gravity="center_vertical"
-        android:paddingTop="30dp"
+        android:paddingTop="15dp"
+        android:paddingLeft="5dp"
         android:textSize="20sp" />
 
     <EditText
@@ -21,20 +22,11 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/lbl_season"
-        android:paddingTop="30dp"
+        android:paddingTop="15dp"
         android:inputType="number" >
         <requestFocus />
     </EditText>
 
-    <!-- <Button
-        android:id="@+id/btn_addplayer"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/txt_season"
-        android:paddingLeft="40dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/button_savetransparent" />-->
 
     <TableLayout
         android:layout_width="fill_parent"

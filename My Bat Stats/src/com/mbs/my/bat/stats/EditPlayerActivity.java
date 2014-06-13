@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,7 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class EditPlayerActivity extends Activity implements OnClickListener{
+public class EditPlayerActivity extends Activity{
 
 	private static final int CAMERA_REQUEST = 1888; 
 	private static final String ALBUM_NAME = "MyBatStats";
@@ -37,7 +38,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener{
     private ImageView playerPic;
     
     //buttons
-    private Button btn_UpdatePlayer;
     private EditText playerText;
     private EditText teamText;
     
@@ -52,9 +52,6 @@ public class EditPlayerActivity extends Activity implements OnClickListener{
 		
 		db = new BatStatsDBHelper(this);
         
-        //set listeners
-        btn_UpdatePlayer = (Button)findViewById(R.id.btn_updatePlayer);
-        btn_UpdatePlayer.setOnClickListener(this);
         
         playerText = (EditText) findViewById(R.id.playerName);
         teamText = (EditText) findViewById(R.id.playerTeam);
@@ -83,6 +80,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener{
         });
         
         setPlayerDetails();
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	private void setPlayerDetails(){
@@ -111,7 +109,7 @@ public class EditPlayerActivity extends Activity implements OnClickListener{
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.edit_player, menu);
+		getMenuInflater().inflate(R.menu.player_edit_actions, menu);
 		return true;
 	}
 	
@@ -126,21 +124,35 @@ public class EditPlayerActivity extends Activity implements OnClickListener{
 	        }
 	    } 
 
-	@Override
-	public void onClick(View arg0) {
-		// If add button was clicked
-	       if (btn_UpdatePlayer.isPressed()) {
-	    	   if(validatePlayer()){
+	
+	
+	 @Override
+ 	public boolean onOptionsItemSelected(MenuItem item) {
+		 
+ 		// Handle item selection
+ 		if (item.getItemId() == R.id.action_save){
+ 			 if(validatePlayer()){
 	    		   	updatePlayer();
 		    	   	Intent intent = new Intent(this, PlayerHomeActivity.class);
 		    	   	intent.putExtra("PLAYER_ID", playerID);
 		       		startActivity(intent);
 		       		this.finish();
+		       		return true;
 	    	   }
-	           	
-	       } 
+ 		}
+ 		else if(item.getItemId() == android.R.id.home){
+ 			Intent intent = new Intent(this, PlayerHomeActivity.class);
+ 		   	intent.putExtra("PLAYER_ID", playerID);
+ 	   		startActivity(intent);
+ 	   		this.finish();
+			return true;
+		}
+ 		else{
+ 			return super.onOptionsItemSelected(item);
+ 		}
+		return true;
 		
-	}
+ 	}
 	
 	private void updatePlayer(){
 		 //if photo exists, save to disk

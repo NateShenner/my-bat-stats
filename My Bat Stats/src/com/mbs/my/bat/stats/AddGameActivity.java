@@ -15,6 +15,7 @@ import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -103,6 +104,7 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		// Set Defaults
 		setDefaults();
 		updateStats();
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 	}
 	
@@ -160,14 +162,37 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.add_game, menu);
+		getMenuInflater().inflate(R.menu.add_game_actions, menu);
 		return true;
+	}
+	
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		if (item.getItemId() == R.id.action_save){
+			if (addGame()) {
+				Intent intent = new Intent(getBaseContext(),
+						PlayerHomeActivity.class);
+				intent.putExtra("PLAYER_ID", playerID);
+				intent.putExtra("SEASON", (long)season);
+				startActivity(intent);
+				this.finish();
+			}
+			return true;
+		}
+		else if(item.getItemId() == android.R.id.home){
+ 			Intent intent = new Intent(this, PlayerHomeActivity.class);
+ 		   	intent.putExtra("PLAYER_ID", playerID);
+ 	   		startActivity(intent);
+ 	   		this.finish();
+			return true;
+		}
+		else{
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	private void setDefaults() {
 
-		//newgameText = (TextView) findViewById(R.id.lbl_newgame);
-		//newgameText.append(" : " + curPlayer.getName());
 
 		seasonText = (EditText) findViewById(R.id.txt_season);
 		seasonText.setText("" + Calendar.getInstance().get(Calendar.YEAR));
@@ -250,33 +275,39 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	private boolean validateStats() {
 		if (hits > pa) {
 			Toast.makeText(getApplicationContext(),
-					"Hits cannot be greater than At Bats", Toast.LENGTH_LONG)
+					"Hits cannot be greater than Plate Appearances", Toast.LENGTH_LONG)
 					.show();
 			return false;
 		}
-		if ((doub > pa) || (doub > hits)) {
+		if (doub > hits) {
 			Toast.makeText(getApplicationContext(),
-					"Double cannot be greater Than At Bats/Hits",
+					"Double cannot be greater Than Hits",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if ((triple > pa) || (triple > hits)) {
+		if (triple > hits) {
 			Toast.makeText(getApplicationContext(),
-					"Triple cannot be greater Than At Bats/Hits",
+					"Triple cannot be greater Than Hits",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if ((homerun > pa) || (homerun > hits)) {
+		if (homerun > hits) {
 			Toast.makeText(getApplicationContext(),
-					"Homerun cannot be greater Than At Bats/Hits",
+					"Homerun cannot be greater Than Hits",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if (((doub + triple + homerun) > pa)
-				|| ((doub + triple + homerun) > hits)) {
+		if  ((doub + triple + homerun) > hits) {
 			Toast.makeText(
 					getApplicationContext(),
-					"Double+Triple+Homerun cannot be greater Than At Bats/Hits",
+					"Double+Triple+Homerun cannot be greater Than Hits",
+					Toast.LENGTH_LONG).show();
+			return false;
+		}
+		if(hits + walks + sac + hbp > pa){
+			Toast.makeText(
+					getApplicationContext(),
+					"Hits + Walks + Sac + HBP cannot be greater Than Plate Appearances",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
@@ -287,27 +318,30 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	public boolean addGame() {
 
 		if (updateStats()) {
-
-//			try{
-//				PlayerStats currentStats = db.getPlayerStatsbyPlayerIDandSeason(
-//						playerID, season);
-//				
-//				if (currentStats != null) {
-//					db.updatePlayerStats(playerID, season,
-//							atbats + currentStats.getAtBat(),
-//							hits + currentStats.getHit(),
-//							runs + currentStats.getRun(),
-//							rbis + currentStats.getRBI(),
-//							walks + currentStats.getWalk(),
-//							sac + currentStats.getWalk(),
-//							doub + currentStats.getDouble(),
-//							triple + currentStats.getTriple(), homerun
-//									+ currentStats.getHomerun());
-//				}
-//			}catch(CursorIndexOutOfBoundsException e1){
-//				db.insertPlayerStats(playerID, season, atbats, hits, runs,
-//						rbis, walks, sac, doub, triple, homerun);
-//			}
+			int atbats = pa - walks - sac - hbp;
+			try{
+				PlayerStats currentStats = db.getPlayerStatsbyPlayerIDandSeason(
+						playerID, season);
+				
+				
+				if (currentStats != null) {
+					db.updatePlayerStats(playerID, season,pa + currentStats.getPA(),
+							atbats + currentStats.getAtBat(),
+							hits + currentStats.getHit(),
+							runs + currentStats.getRun(),							
+							rbis + currentStats.getRBI(),
+							ks + currentStats.getK(),
+							walks + currentStats.getWalk(),
+							sac + currentStats.getWalk(),
+							hbp + currentStats.getHBP(),
+							doub + currentStats.getDouble(),
+							triple + currentStats.getTriple(), homerun
+									+ currentStats.getHomerun());
+				}
+			}catch(CursorIndexOutOfBoundsException e1){
+				db.insertPlayerStats(playerID, season, pa, atbats, hits, runs,
+						rbis, walks, ks, sac, hbp, doub, triple, homerun);
+			}
 			
 
 			db.close();
@@ -318,19 +352,8 @@ public class AddGameActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View arg0) {
-		// If add button was clicked
 		
-		/**if (btn_AddGame.isPressed()) {
-
-			if (addGame()) {
-				Intent intent = new Intent(getBaseContext(),
-						PlayerHomeActivity.class);
-				intent.putExtra("PLAYER_ID", playerID);
-				intent.putExtra("SEASON", (long)season);
-				startActivity(intent);
-				this.finish();
-			}
-		}**/
+		
 		if(btn_PA_Plus.isPressed() && !paText.getText().toString().equals("10")){
 			paText.setText( (Integer.parseInt(paText.getText().toString()) + 1 ) + "");
 		}

@@ -39,6 +39,7 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	AppSectionsPagerAdapter mAppSectionsPagerAdapter;
 	android.support.v4.view.ViewPager mViewPager;
 	private Player curPlayer;
+	private String playerID;
 	private BatStatsDBHelper db;
 	
 	@Override
@@ -74,13 +75,13 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	        getActionBar().setDisplayHomeAsUpEnabled(true);
             //getActionBar().setHomeButtonEnabled(true);
 	        
-	        long playerID = 0;
+	        
 	        Intent intent = getIntent();
     		Bundle extras = intent.getExtras();
     		
     		 
     		if (extras != null) {
-    			playerID = extras.getLong("PLAYER_ID");
+    			playerID = extras.getLong("PLAYER_ID") + "";
     			
     		}
 
@@ -88,7 +89,8 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
     		db = new BatStatsDBHelper(this);
     		db.open();
 
-    		curPlayer = db.getPlayerByID(playerID);
+    		curPlayer = db.getPlayerByID(Long.parseLong(playerID));
+    		
 		
 	}
 	
@@ -166,23 +168,27 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	    	private String lastselectedSeason = "0";
 
 	    	// table columns
-	    	int COL_ATBATS = 0;
-	    	int COL_HITS = 1;
-	    	int COL_RUNS = 2;
-	    	int COL_RBIS = 3;
-	    	int COL_WALKS = 4;
-	    	int COL_SAC = 5;
-	    	int COL_DOUBLE = 6;
-	    	int COL_TRIPLE = 7;
-	    	int COL_HR = 8;
+	    	int COL_PA = 0;
+	    	int COL_ATBATS = 1;
+	    	int COL_HITS = 2;
+	    	int COL_RUNS = 3;
+	    	int COL_RBIS = 4;
+	    	int COL_K = 5;
+	    	int COL_WALKS = 6;
+	    	int COL_SAC = 7;
+	    	int COL_HBP = 8;
+	    	int COL_DOUBLE = 9;
+	    	int COL_TRIPLE = 10;
+	    	int COL_HR = 11;
 
-	    	int NUM_COLS = 9;
+	    	int NUM_COLS = 12;
 
 	    	int COL_AVG = 0;
 	    	int COL_OBP = 1;
-	    	int COL_OPS = 2;
+	    	int COL_SLG = 2;
+	    	int COL_OPS = 3;
 
-	    	int NUM_COLS_2 = 3;
+	    	int NUM_COLS_2 = 4;
 	        @Override
 	        public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                Bundle savedInstanceState) {
@@ -207,12 +213,15 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	    	private void setupStatsTableHeader(View rootView) {
 	    		// populate cols array
 	    		String[] cols = new String[NUM_COLS];
+	    		cols[COL_PA] = "PA";
 	    		cols[COL_ATBATS] = "AB";
 	    		cols[COL_HITS] = "H";
 	    		cols[COL_RUNS] = "R";
 	    		cols[COL_RBIS] = "RBI";
+	    		cols[COL_K] = "K";
 	    		cols[COL_WALKS] = "BB";
 	    		cols[COL_SAC] = "SAC";
+	    		cols[COL_HBP] = "HBP";
 	    		cols[COL_DOUBLE] = "2B";
 	    		cols[COL_TRIPLE] = "3B";
 	    		cols[COL_HR] = "HR";
@@ -220,6 +229,7 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	    		String[] cols2 = new String[NUM_COLS_2];
 	    		cols2[COL_AVG] = "AVG";
 	    		cols2[COL_OBP] = "OBP";
+	    		cols2[COL_SLG] = "SLG";
 	    		cols2[COL_OPS] = "OPS";
 
 	    		// Get the TableLayout
@@ -285,12 +295,15 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	    		// populate cols array
 	    		DecimalFormat df = new DecimalFormat(".000");
 	    		String[] colsData = new String[NUM_COLS];
+	    		colsData[COL_PA] = "" + curPlayerStats.getPA();
 	    		colsData[COL_ATBATS] = "" + curPlayerStats.getAtBat();
 	    		colsData[COL_HITS] = "" + curPlayerStats.getHit();
 	    		colsData[COL_RUNS] = "" + curPlayerStats.getRun();
 	    		colsData[COL_RBIS] = "" + curPlayerStats.getRBI();
+	    		colsData[COL_K] = "" + curPlayerStats.getK();
 	    		colsData[COL_WALKS] = "" + curPlayerStats.getWalk();
 	    		colsData[COL_SAC] = "" + curPlayerStats.getSacrifice();
+	    		colsData[COL_HBP] = "" + curPlayerStats.getHBP();
 	    		colsData[COL_DOUBLE] = "" + curPlayerStats.getDouble();
 	    		colsData[COL_TRIPLE] = "" + curPlayerStats.getTriple();
 	    		colsData[COL_HR] = "" + curPlayerStats.getHomerun();
@@ -299,6 +312,7 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	    		String[] colsData2 = new String[NUM_COLS_2];
 	    		colsData2[COL_AVG] = df.format(curPlayerStats.calcBattingAvg());
 	    		colsData2[COL_OBP] = df.format(curPlayerStats.calcOBP());
+	    		colsData2[COL_SLG] = df.format(curPlayerStats.calcSlugging());
 	    		colsData2[COL_OPS] = df.format(curPlayerStats.calcOPS());
 
 	    		// Get the TableLayout
@@ -482,11 +496,11 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
     			addGame();
     			return true;
     		}
-    		else if( item.getItemId() == R.id.menu_edit){
+    		else if( item.getItemId() == R.id.action_edit){
     			editPlayer();
     			return true;
     		}
-    		else if( item.getItemId() == R.id.menu_delete){
+    		else if( item.getItemId() == R.id.action_delete){
     			deletePlayer();
     			return true;
     		}
@@ -607,6 +621,7 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 
     	private void navigateHomePage() {
     		Intent intent = new Intent(this, MainActivity.class);
+    		intent.putExtra("LAUNCH", false);
     		startActivity(intent);
     		finish();
     	}
@@ -617,6 +632,14 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
     		intent.putExtra("PLAYER_ID", curPlayer.getID());
     		startActivity(intent);
     		finish();
+    	}
+    	
+    	@Override
+    	public void onBackPressed() {
+    		Intent intent = new Intent(this, MainActivity.class);
+    		intent.putExtra("LAUNCH", false);
+    	   	startActivity(intent);
+       		this.finish();
     	}
 
 		

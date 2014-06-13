@@ -193,13 +193,24 @@ public class MainActivity extends Activity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume(); 
-
-        mDrawerLayout.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-            	mDrawerLayout.openDrawer(Gravity.LEFT);
-            }
-        }, 1000);
+        
+        Intent intent = getIntent();
+		Bundle extras = intent.getExtras();
+		boolean launch = true;
+		 
+		if (extras != null) {
+			launch = extras.getBoolean("LAUNCH");			
+		}
+		
+		if(launch){
+			mDrawerLayout.postDelayed(new Runnable() {
+	            @Override
+	            public void run() {
+	            	mDrawerLayout.openDrawer(Gravity.LEFT);
+	            }
+	        }, 1000);
+		}
+        
     }
 
 }

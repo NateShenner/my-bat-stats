@@ -37,8 +37,7 @@
                 android:value="com.example.myfirstbat.activity_main" />
         </activity>
         <activity
-            android:name="com.mbs.my.bat.stats.PlayerHomeActivity"
-            android:label="@string/title_activity_player_home" >
+            android:name="com.mbs.my.bat.stats.PlayerHomeActivity" android:label="">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.myfirstbat.activity_main" />
@@ -47,10 +46,16 @@
             android:name="com.mbs.my.bat.stats.AddGameActivity"
             android:label="@string/title_activity_add_game"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myfirstbat.activity_player_home" />
         </activity>
         <activity
             android:name="com.mbs.my.bat.stats.EditPlayerActivity"
             android:label="@string/title_activity_edit_player" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myfirstbat.activity_player_home" />
         </activity>
     </application>
 

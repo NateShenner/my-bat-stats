@@ -74,20 +74,12 @@
         android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/btn_updatePlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imageView1"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_savetransparent" />
-
-    <Button
         android:id="@+id/addPic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView1"
-        android:layout_toRightOf="@+id/btn_updatePlayer"
-        android:background="@drawable/button_takephototransparent"
-        />
+        android:layout_alignLeft="@+id/imageView1"
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_camera_gray" />
 
 </RelativeLayout>

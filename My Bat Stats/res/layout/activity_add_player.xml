@@ -68,21 +68,14 @@
         android:ems="10"
         android:inputType="textPersonName" />
 
-    <Button
+     <Button
         android:id="@+id/addPic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/imageView1"
-        android:layout_toRightOf="@+id/btn_createPlayer"
-        android:background="@drawable/button_takephototransparent"
-        />
-
-    <Button
-        android:id="@+id/btn_createPlayer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
         android:layout_below="@+id/imageView1"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/button_addplayertransparent" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/ic_camera_gray" />
+
 
 </RelativeLayout>

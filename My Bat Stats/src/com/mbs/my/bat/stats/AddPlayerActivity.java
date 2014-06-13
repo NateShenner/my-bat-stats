@@ -29,7 +29,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class AddPlayerActivity extends Activity implements OnClickListener{
+public class AddPlayerActivity extends Activity{
 
 
 	private static final int CAMERA_REQUEST = 1888; 
@@ -44,7 +44,6 @@ public class AddPlayerActivity extends Activity implements OnClickListener{
     private Intent cameraIntent;
     
     //buttons
-    private Button btn_CreatePlayer;
     private EditText playerText;
     private EditText teamText;
     
@@ -57,9 +56,6 @@ public class AddPlayerActivity extends Activity implements OnClickListener{
         setContentView(R.layout.activity_add_player);
         db = new BatStatsDBHelper(this);
         
-        //set listeners
-        btn_CreatePlayer = (Button)findViewById(R.id.btn_createPlayer);
-        btn_CreatePlayer.setOnClickListener(this);
         
         playerText = (EditText) findViewById(R.id.playerName);
         teamText = (EditText) findViewById(R.id.playerTeam);
@@ -75,18 +71,20 @@ public class AddPlayerActivity extends Activity implements OnClickListener{
                 startActivityForResult(cameraIntent, CAMERA_REQUEST); 
             }
         });
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         
         
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_add_player, menu);
+        getMenuInflater().inflate(R.menu.add_player_actions, menu);
         return true;
     }
     
     private void navigateHomePage(){
 		Intent intent = new Intent(getBaseContext(), MainActivity.class);
+		intent.putExtra("LAUNCH", false);
     	startActivity(intent);
     	this.finish();
 	}
@@ -185,27 +183,27 @@ public class AddPlayerActivity extends Activity implements OnClickListener{
         	navigateHomePage();
             return true;
 	    }
-        else{
-        	return super.onOptionsItemSelected(item);
-        }
-	    
-	}
-    
-    @Override
-	   public void onClick(View v) {
-	      
-    	// If add button was clicked
-	       if (btn_CreatePlayer.isPressed()) {
-	    	   if(validatePlayer()){
+	    else if(item.getItemId() == android.R.id.home){
+			navigateHomePage();
+			return true;
+		}
+	    else if(item.getItemId() == R.id.action_save){
+	    	if(validatePlayer()){
 	    		   createPlayer();
 		    	   	Intent intent = new Intent(this, PlayerHomeActivity.class);
 		    	   	intent.putExtra("PLAYER_ID", playerID);
 		       		startActivity(intent);
 		       		this.finish();
 	    	   }
-	           	
-	       } 
-    }
+	    	return true;
+	    }
+        else{
+        	return super.onOptionsItemSelected(item);
+        }
+	    
+	}
+    
+    
 
 	private boolean validatePlayer() {
 		boolean valid = true;
@@ -230,6 +228,7 @@ public class AddPlayerActivity extends Activity implements OnClickListener{
 	@Override
 	public void onBackPressed() {
 		Intent intent = new Intent(getBaseContext(), MainActivity.class);
+		intent.putExtra("LAUNCH", false);
     	startActivity(intent);
     	this.finish();
 	}
