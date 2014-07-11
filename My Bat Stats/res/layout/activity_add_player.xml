@@ -54,7 +54,7 @@
         android:layout_marginLeft="18dp"
         android:layout_toRightOf="@+id/lbl_playerpic"
         android:ems="10"
-        android:inputType="textPersonName" >
+        android:inputType="textCapSentences" >
 
         <requestFocus />
     </EditText>
@@ -66,16 +66,8 @@
         android:layout_alignLeft="@+id/playerName"
         android:layout_alignTop="@+id/lbl_teamname"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textCapSentences" />
 
-     <Button
-        android:id="@+id/addPic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/imageView1"
-        android:layout_below="@+id/imageView1"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/ic_camera_gray" />
 
 
 </RelativeLayout>

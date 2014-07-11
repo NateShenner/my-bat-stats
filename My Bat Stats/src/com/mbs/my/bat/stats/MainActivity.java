@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class MainActivity extends Activity implements OnClickListener {
     private List <Player> mPlayerList;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private LinearLayout mLinearLayout;
     private CharSequence mTitle;
     private CharSequence mDrawerTitle;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -46,8 +48,9 @@ public class MainActivity extends Activity implements OnClickListener {
         db.open();
         mTitle = "My Bat Stats";
         mDrawerTitle = "Load Player";
+        mLinearLayout = (LinearLayout) findViewById(R.id.left_drawer);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer_list);
         mPlayerList = db.getAllPlayersList();
         ArrayAdapter <Player> dataAdapter = new ArrayAdapter <Player>(this,
 				R.layout.drawer_list_item, mPlayerList);
@@ -169,8 +172,8 @@ public class MainActivity extends Activity implements OnClickListener {
     	loadPlayer(position);
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
-       // setTitle(mPlanetTitles[position]);
-        mDrawerLayout.closeDrawer(mDrawerList);
+      
+        mDrawerLayout.closeDrawer(mLinearLayout);
     }
 	
     @Override
@@ -201,6 +204,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		if (extras != null) {
 			launch = extras.getBoolean("LAUNCH");			
 		}
+		
 		
 		if(launch){
 			mDrawerLayout.postDelayed(new Runnable() {

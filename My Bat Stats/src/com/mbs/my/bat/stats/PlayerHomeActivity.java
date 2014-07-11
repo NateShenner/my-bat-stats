@@ -1,11 +1,25 @@
 package com.mbs.my.bat.stats;
 
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
@@ -25,6 +39,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.GridLayout.LayoutParams;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableLayout;
@@ -67,6 +82,7 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	            // Create a tab with text corresponding to the page title defined by the adapter.
 	            // Also specify this Activity object, which implements the TabListener interface, as the
 	            // listener for when this tab is selected.
+	        	
 	            actionBar.addTab(
 	                    actionBar.newTab()
 	                            .setText(mAppSectionsPagerAdapter.getPageTitle(i))
@@ -289,7 +305,24 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	    			curPlayerStats = db.getPlayerStatsbyPlayerIDandSeason(curPlayer.getID(), season );
 	    		}
 	    		else{
-	    			//Calculate Career Stats
+	    			//Career Stats
+	    			List <Long> seasonList = db.getAllSeasonsForPlayer(curPlayer.getID());
+	    			for(long curSeason : seasonList){
+	    				db.open();
+	    				PlayerStats curStats = db.getPlayerStatsbyPlayerIDandSeason(curPlayer.getID(), (int)curSeason);
+	    				curPlayerStats.setPA(curPlayerStats.getPA() + curStats.getPA());
+	    				curPlayerStats.setHit(curPlayerStats.getHit() + curStats.getHit());
+	    				curPlayerStats.setRun(curPlayerStats.getRun() + curStats.getRun());
+	    				curPlayerStats.setRBI(curPlayerStats.getRBI() + curStats.getRBI());
+	    				curPlayerStats.setK(curPlayerStats.getK() + curStats.getK());
+	    				curPlayerStats.setWalk(curPlayerStats.getWalk() + curStats.getWalk());
+	    				curPlayerStats.setSacrifice(curPlayerStats.getSacrifice() + curStats.getSacrifice());
+	    				curPlayerStats.setHBP(curPlayerStats.getHBP() + curStats.getHBP());
+	    				curPlayerStats.setDouble(curPlayerStats.getDouble() + curStats.getDouble());
+	    				curPlayerStats.setTriple(curPlayerStats.getTriple() + curStats.getTriple());
+	    				curPlayerStats.setHomerun(curPlayerStats.getHomerun() + curStats.getHomerun());
+	    			}
+	    			
 	    		}
 
 	    		// populate cols array
@@ -478,16 +511,199 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
 	     * Game Log screen (Fragment)
 	     */
 	    public static class GameLogSectionFragment extends android.support.v4.app.Fragment {
+	    	// table columns
+	    	int COL_PA = 0;
+	    	int COL_ATBATS = 1;
+	    	int COL_HITS = 2;
+	    	int COL_RUNS = 3;
+	    	int COL_RBIS = 4;
+	    	int COL_K = 5;
+	    	int COL_WALKS = 6;
+	    	int COL_SAC = 7;
+	    	int COL_HBP = 8;
+	    	int COL_DOUBLE = 9;
+	    	int COL_TRIPLE = 10;
+	    	int COL_HR = 11;
 
-
-	        @Override
+	    	int NUM_COLS = 12;
+	    	
+	    	 Long playerID;	    	
+	    	 Long curGameID;
+	    	 private BatStatsDBHelper db;
+	    	 public static final int MAX_GAMES = 10;
+	    	 
+			@Override
 	        public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                Bundle savedInstanceState) {
+				Intent intent = getActivity().getIntent();
+	    		Bundle extras = intent.getExtras();
+	    		if (extras != null) {
+	    			playerID = extras.getLong("PLAYER_ID");
+	    		}
+	    		
 	            View rootView = inflater.inflate(R.layout.activity_player_gamelog, container, false);
-	           
+	            db = new BatStatsDBHelper(this.getActivity().getApplicationContext());
+	            db.open();
+	            setLogTableHeader(rootView);
+	            setLogTableContent(rootView);
 	            return rootView;
-	        }
+			}
+
+			private void setLogTableHeader(View rootView) {
+				// populate cols array
+	    		String[] cols = new String[NUM_COLS];
+	    		cols[COL_PA] = "PA";
+	    		cols[COL_ATBATS] = "AB";
+	    		cols[COL_HITS] = "H";
+	    		cols[COL_RUNS] = "R";
+	    		cols[COL_RBIS] = "RBI";
+	    		cols[COL_K] = "K";
+	    		cols[COL_WALKS] = "BB";
+	    		cols[COL_SAC] = "SAC";
+	    		cols[COL_HBP] = "HBP";
+	    		cols[COL_DOUBLE] = "2B";
+	    		cols[COL_TRIPLE] = "3B";
+	    		cols[COL_HR] = "HR";
+
+	    		// Get the TableLayout
+	    		TableLayout t = (TableLayout)rootView.findViewById(R.id.gamelogtable);
+
+	    		// Create a TableRow and give it an ID
+	    		TableRow tr = new TableRow(this.getActivity().getApplicationContext());
+	    		tr.setId(1);
+	    		
+	    		// Go through each item in the array
+	    		for (int current = 0; current < NUM_COLS; current++) {
+	    			// Create a TextView to house the name of the province
+	    			TextView labelTV = new TextView(this.getActivity().getApplicationContext());
+	    			labelTV.setId(200 + current);
+	    			labelTV.setText(cols[current]);
+	    			labelTV.setTextColor(Color.BLACK);
+	    			labelTV.setPadding(0, 0, 15, 0);
+	    			labelTV.setGravity(Gravity.CENTER);
+	    			labelTV.setBackgroundColor(Color.GRAY);
+	    			tr.addView(labelTV);
+	    		}
+	    		//Blank Header column for delete
+	    		TextView blankView = new TextView(this.getActivity().getApplicationContext());
+	    		blankView.setText("");
+	    		blankView.setBackgroundColor(Color.GRAY);
+	    		tr.addView(blankView);
+	    		// Add the TableRow to the TableLayout
+	    		t.addView(tr, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT,
+	    				LayoutParams.WRAP_CONTENT));
+			}
+			
+			private void setLogTableContent(final View rootView){
+				db.open();
+				curGameID = new Long(0);
+	    		List <GameLog> gameLogs = new ArrayList<GameLog>();
+	    		gameLogs = db.getPlayerGamesbyPlayerID(playerID, MAX_GAMES);
+	    		TableLayout t = (TableLayout) rootView.findViewById(R.id.gamelogtable);
+	    		
+	    		
+	    		for(final GameLog curGame : gameLogs){
+	    		
+	    			final PlayerStats curStats = db.getPlayerStatsbyPlayerIDandSeason(playerID, curGame.getSeason());
+	    			// Create a TableRow and give it an ID
+		    		TableRow tr = new TableRow(this.getActivity().getApplicationContext());
+		    		tr.setPadding(0, 0, 0, 40);
+		    		tr.setId( (int) curGame.getID());
+		    		String[] colsData = new String[NUM_COLS];
+		    		colsData[COL_PA] = "" + curGame.getPA();
+		    		colsData[COL_ATBATS] = "" + curGame.getAtBat();
+		    		colsData[COL_HITS] = "" + curGame.getHit();
+		    		colsData[COL_RUNS] = "" + curGame.getRun();
+		    		colsData[COL_RBIS] = "" + curGame.getRBI();
+		    		colsData[COL_K] = "" + curGame.getK();
+		    		colsData[COL_WALKS] = "" + curGame.getWalk();
+		    		colsData[COL_SAC] = "" + curGame.getSacrifice();
+		    		colsData[COL_HBP] = "" + curGame.getHBP();
+		    		colsData[COL_DOUBLE] = "" + curGame.getDouble();
+		    		colsData[COL_TRIPLE] = "" + curGame.getTriple();
+		    		colsData[COL_HR] = "" + curGame.getHomerun();
+		    		
+		    		// Go through each item in the array
+		    		for (int current = 0; current < NUM_COLS; current++) {
+		    			
+		    			TextView labelTV = new TextView(this.getActivity().getApplicationContext());
+		    			labelTV.setId(300 + current);
+		    			labelTV.setText(colsData[current]);
+		    			labelTV.setTextColor(Color.BLACK);
+		    			labelTV.setPadding(0, 0, 15, 0);
+		    			labelTV.setGravity(Gravity.CENTER);
+		    			labelTV.setBackgroundColor(Color.WHITE);
+		    			tr.addView(labelTV);
+		    		}
+		    		ImageButton del = new ImageButton(this.getActivity().getApplicationContext());
+		    		del.setBackgroundResource(R.drawable.ic_discard_gray);
+		    		del.setClickable(true);
+		    		del.setOnClickListener(new android.view.View.OnClickListener()
+		    		{
+		    			 @Override public void onClick(final View v)
+		    		        {
+		    		           
+		    		            
+		    		            AlertDialog.Builder alertDialog = new AlertDialog.Builder(rootView.getContext());
+
+		    		    		// Setting Dialog Title
+		    		    		alertDialog.setTitle("Confirm Delete Game...");
+
+		    		    		// Setting Dialog Message
+		    		    		alertDialog.setMessage("Are you sure you want delete this game?");
+
+		    		    		// Setting Icon to Dialog
+		    		    		alertDialog.setIcon(R.drawable.ic_launcher);
+
+		    		    		// Setting Positive "Yes" Button
+		    		    		alertDialog.setPositiveButton("YES",
+		    		    				new DialogInterface.OnClickListener() {
+		    		    					public void onClick(DialogInterface dialog, int which) {
+		    		    						 // row is your row, the parent of the clicked button
+		    			    		            View row = (View) v.getParent();
+		    			    		            // container contains all the rows, you could keep a variable somewhere else to the container which you can refer to here
+		    			    		            ViewGroup container = ((ViewGroup)row.getParent());
+		    			    		            // delete the row and invalidate your view so it gets redrawn
+		    			    		            container.removeView(row);
+		    			    		            container.invalidate();
+		    		    						 db.open();
+		    				    		         db.deleteGameLog(row.getId());
+		    				    		         db.updatePlayerStats(playerID, curGame.getSeason(), curStats.getPA() - curGame.getPA(), curStats.getAtBat() - curGame.getAtBat(), curStats.getHit() - curGame.getHit(), curStats.getRun() - curGame.getRun(), curStats.getRBI() - curGame.getRBI(), curStats.getK() - curGame.getK(), curStats.getWalk() - curGame.getWalk(), curStats.getSacrifice() - curGame.getSacrifice(), curStats.getHBP() - curGame.getHBP(), curStats.getDouble() - curGame.getDouble(), curStats.getTriple() - curGame.getTriple(), curStats.getHomerun() - curGame.getHomerun());
+		    				    		         Intent intent = new Intent(getActivity().getBaseContext(), PlayerHomeActivity.class);
+		    				 	    			intent.putExtra("PLAYER_ID", curGame.getPlayerID());
+		    				 	    			intent.putExtra("SEASON", curGame.getSeason());
+		    				 	    			startActivity(intent);
+		    				 	    			getActivity().finish();
+		    		    					}
+		    		    				});
+
+		    		    		// Setting Negative "NO" Button
+		    		    		alertDialog.setNegativeButton("NO",
+		    		    				new DialogInterface.OnClickListener() {
+		    		    					public void onClick(DialogInterface dialog, int which) {
+		    		    						dialog.cancel();
+		    		    					}
+		    		    				});
+
+		    		    		// Showing Alert Message
+		    		    		alertDialog.show();
+		    		           
+		    		        }
+		    		    });
+		    		
+		    		tr.addView(del);
+		    		
+		    		// Add the TableRow to the TableLayout
+		    		t.addView(tr, new TableLayout.LayoutParams(LayoutParams.FILL_PARENT,
+		    				LayoutParams.WRAP_CONTENT));
+	    		}
+    			
+	    		db.close();
+			}
+
+			
 	    }
+	        
 	    
 	    @Override
     	public boolean onOptionsItemSelected(MenuItem item) {
@@ -536,6 +752,7 @@ public class PlayerHomeActivity extends FragmentActivity implements ActionBar.Ta
     					public void onClick(DialogInterface dialog, int which) {
 
     						db.open();
+    						db.clearGameLog(curPlayer.getID());
     						db.deletePlayerStats(curPlayer.getID());
     						db.insertPlayerStats(curPlayer.getID(), Calendar
     								.getInstance().get(Calendar.YEAR), 0, 0, 0, 0,

@@ -6,18 +6,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,7 +23,6 @@ import android.widget.Toast;
 public class EditPlayerActivity extends Activity{
 
 	private static final int CAMERA_REQUEST = 1888; 
-	private static final String ALBUM_NAME = "MyBatStats";
 	private static final String JPEG_FILE_PREFIX = "IMG_";
 	private static final String JPEG_FILE_SUFFIX = ".jpg";
 	private static final int MAX_LENGTH = 15;
@@ -33,7 +30,6 @@ public class EditPlayerActivity extends Activity{
 	private BatStatsDBHelper db;
     private ImageView imageView;
     private Bitmap photo;
-    private String playerName;
     private Intent cameraIntent;
     private ImageView playerPic;
     
@@ -68,19 +64,17 @@ public class EditPlayerActivity extends Activity{
 		curPlayer = db.getPlayerByID(playerID);
         
         //camera setup
-        this.imageView = (ImageView)this.findViewById(R.id.imageView1);
-        Button photoButton = (Button) this.findViewById(R.id.addPic);
-        photoButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
-                startActivityForResult(cameraIntent, CAMERA_REQUEST); 
-            }
-        });
-        
+        imageView = (ImageView)this.findViewById(R.id.imageView1);
+                
         setPlayerDetails();
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        
+        imageView.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+               takePicture();
+            }
+        });
 	}
 
 	private void setPlayerDetails(){
@@ -147,6 +141,10 @@ public class EditPlayerActivity extends Activity{
  	   		this.finish();
 			return true;
 		}
+ 		else if(item.getItemId() == R.id.action_camera){
+ 			takePicture();
+ 	        return true;
+ 		} 		 
  		else{
  			return super.onOptionsItemSelected(item);
  		}
@@ -154,6 +152,10 @@ public class EditPlayerActivity extends Activity{
 		
  	}
 	
+	private void takePicture(){
+		cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
+	    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+	}
 	private void updatePlayer(){
 		 //if photo exists, save to disk
 		

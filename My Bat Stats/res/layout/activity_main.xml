@@ -35,15 +35,42 @@
             android:textColor="#FFFFFF" />
     </RelativeLayout>
     <!-- The navigation drawer -->
-
-    <ListView
+    <LinearLayout 
         android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#111"
+        >
+    <TextView
+        android:paddingLeft="60dp"
+        android:paddingTop="20dp"
+        android:textColor="#92C792"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif-thin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#111"
+        android:text="@string/title_players"/>
+    <View
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+    	android:layout_width="fill_parent"
+    	android:layout_height="1dip"
+    	android:background="#92C792" />
+    
+	<TextView
+        android:layout_width="wrap_content"
+        android:background="#111"
+        android:layout_height="10dp"/>
+    <ListView
+        android:id="@+id/left_drawer_list"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"        
         android:background="#111"
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" />
-
+</LinearLayout>
 </android.support.v4.widget.DrawerLayout>

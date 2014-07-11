@@ -33,6 +33,7 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	private BatStatsDBHelper db;
 	private Player curPlayer;
 
+	private String seasonAsString;
 	private int season;
 	private int pa;
 	private int hits;
@@ -173,7 +174,7 @@ public class AddGameActivity extends Activity implements OnClickListener {
 				Intent intent = new Intent(getBaseContext(),
 						PlayerHomeActivity.class);
 				intent.putExtra("PLAYER_ID", playerID);
-				intent.putExtra("SEASON", (long)season);
+				intent.putExtra("SEASON", seasonAsString);
 				startActivity(intent);
 				this.finish();
 			}
@@ -246,6 +247,7 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		try {
 
 			season = Integer.parseInt(seasonText.getText().toString());
+			seasonAsString = seasonText.getText().toString();
 			pa = Integer.parseInt(paText.getText().toString());
 			hits = Integer.parseInt(hitText.getText().toString());
 			runs = Integer.parseInt(runText.getText().toString());
@@ -304,10 +306,10 @@ public class AddGameActivity extends Activity implements OnClickListener {
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if(hits + walks + sac + hbp > pa){
+		if(hits + walks + sac + hbp + ks > pa){
 			Toast.makeText(
 					getApplicationContext(),
-					"Hits + Walks + Sac + HBP cannot be greater Than Plate Appearances",
+					"Hits + Walks + Sac + HBP + K cannot be greater Than Plate Appearances",
 					Toast.LENGTH_LONG).show();
 			return false;
 		}
@@ -325,6 +327,8 @@ public class AddGameActivity extends Activity implements OnClickListener {
 				
 				
 				if (currentStats != null) {
+					db.insertGameLog(playerID, season, pa, atbats, hits, runs, rbis, walks, ks, sac, hbp, doub, triple, homerun);
+					
 					db.updatePlayerStats(playerID, season,pa + currentStats.getPA(),
 							atbats + currentStats.getAtBat(),
 							hits + currentStats.getHit(),
@@ -332,13 +336,14 @@ public class AddGameActivity extends Activity implements OnClickListener {
 							rbis + currentStats.getRBI(),
 							ks + currentStats.getK(),
 							walks + currentStats.getWalk(),
-							sac + currentStats.getWalk(),
+							sac + currentStats.getSacrifice(),
 							hbp + currentStats.getHBP(),
 							doub + currentStats.getDouble(),
 							triple + currentStats.getTriple(), homerun
 									+ currentStats.getHomerun());
 				}
 			}catch(CursorIndexOutOfBoundsException e1){
+				db.insertGameLog(playerID, season, pa, atbats, hits, runs, rbis, walks, ks, sac, hbp, doub, triple, homerun);
 				db.insertPlayerStats(playerID, season, pa, atbats, hits, runs,
 						rbis, walks, ks, sac, hbp, doub, triple, homerun);
 			}
@@ -414,8 +419,8 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		else if(btn_triple_Minus.isPressed() && !tripleText.getText().toString().equals("0")){
 				tripleText.setText( (Integer.parseInt(tripleText.getText().toString()) - 1 ) + "");
 		}
-		else if(btn_hr_Plus.isPressed() && !doubText.getText().toString().equals("10")){
-			hrText.setText( (Integer.parseInt(doubText.getText().toString()) + 1 ) + "");
+		else if(btn_hr_Plus.isPressed() && !hrText.getText().toString().equals("10")){
+			hrText.setText( (Integer.parseInt(hrText.getText().toString()) + 1 ) + "");
 		}
 		else if(btn_hr_Minus.isPressed() && !hrText.getText().toString().equals("0")){
 				hrText.setText( (Integer.parseInt(hrText.getText().toString()) - 1 ) + "");
@@ -492,6 +497,7 @@ public class AddGameActivity extends Activity implements OnClickListener {
 				.findViewById(R.id.numberPicker1);
 		np.setMaxValue(10);
 		np.setMinValue(0);
+		np.setValue(Integer.parseInt(curTextView.getText().toString()));
 		np.setWrapSelectorWheel(false);
 		b1.setOnClickListener(new OnClickListener() {
 			@Override

@@ -187,6 +187,27 @@ public class BatStatsDBHelper
     	initialValues.put(KEY_HR,  homerun);    	
     	return db.insert(TABLE_PLAYERSTATS, null, initialValues);
     }
+    
+  //---insert a players game into the database
+    public long insertGameLog(long playerID, int season, int pa, int atbat, int hit, 
+    		int run, int rbi, int walk,int k, int sac, int hbp, int doub, int triple, int homerun ){
+    	ContentValues initialValues = new ContentValues();
+    	initialValues.put(KEY_LOGPLAYERID,  playerID);
+    	initialValues.put(KEY_LOGSEASON,  season);
+    	initialValues.put(KEY_LOGPA,  pa);
+    	initialValues.put(KEY_LOGATBAT,  atbat);
+    	initialValues.put(KEY_LOGHIT,  hit);
+    	initialValues.put(KEY_LOGRUN,  run);
+    	initialValues.put(KEY_LOGRBI,  rbi);
+    	initialValues.put(KEY_LOGK,  k);
+    	initialValues.put(KEY_LOGWALK,  walk);
+    	initialValues.put(KEY_LOGSAC,  sac);
+    	initialValues.put(KEY_LOGHBP,  hbp);
+    	initialValues.put(KEY_LOGDOUBLE,  doub);
+    	initialValues.put(KEY_LOGTRIPLE,  triple);
+    	initialValues.put(KEY_LOGHR,  homerun);    	
+    	return db.insert(TABLE_GAMELOG, null, initialValues);
+    }
  
     //---deletes a particular player---
     public boolean deletePlayer(long rowId) 
@@ -197,6 +218,15 @@ public class BatStatsDBHelper
     //---deletes a particiular players stats---
     public boolean deletePlayerStats(long playerID){
     	return db.delete(TABLE_PLAYERSTATS, KEY_PLAYERID + "=" + playerID, null) > 0;
+    }
+    
+  //---deletes a particiular players game---
+    public boolean deleteGameLog(long gameLogID){
+    	return db.delete(TABLE_GAMELOG, KEY_GAMELOGROWID + "=" + gameLogID, null) > 0;
+    }
+    
+    public boolean clearGameLog(long playerID){
+    	return db.delete(TABLE_GAMELOG, KEY_PLAYERID + "=" + playerID, null) > 0;
     }
  
     //---retrieves all the players---
@@ -289,6 +319,65 @@ public class BatStatsDBHelper
         }
         return row;
     }
+    
+    public List <GameLog> getPlayerGamesbyPlayerID(long playerID, int maxRows){
+    	GameLog row = new GameLog();
+    	
+    	List <GameLog> retList = new ArrayList<GameLog>();
+    	
+        Cursor mCursor =
+                db.query(true, TABLE_GAMELOG, new String[] {
+                		KEY_GAMELOGROWID,
+                		KEY_LOGPLAYERID, 
+                		KEY_LOGSEASON,
+                		KEY_LOGPA,
+                		KEY_LOGATBAT,
+                		KEY_LOGHIT,
+                		KEY_LOGRUN,
+                		KEY_LOGRBI,
+                		KEY_LOGK,
+                		KEY_LOGWALK,
+                		KEY_LOGSAC,
+                		KEY_LOGHBP,
+                		KEY_LOGDOUBLE,
+                		KEY_LOGTRIPLE,
+                		KEY_LOGHR
+                		}, 
+                		KEY_PLAYERID + "=" + playerID, 
+                		null,
+                		null, 
+                		null, 
+                		KEY_GAMELOGROWID + " DESC", 
+                		null);
+        if (mCursor != null) {
+        	
+        
+            mCursor.moveToFirst();
+            while(!mCursor.isAfterLast() && --maxRows >= 0){
+            	row = new GameLog();
+    			row.setID(mCursor.getLong(0));
+    			row.setPlayerID(mCursor.getLong(1));
+    			row.setSeason(mCursor.getInt(2));
+    			row.setPA(mCursor.getInt(3));
+    			row.setAtBat(mCursor.getInt(4));
+    			row.setHit(mCursor.getInt(5));
+    			row.setRun(mCursor.getInt(6));
+    			row.setRBI(mCursor.getInt(7));
+    			row.setK(mCursor.getInt(8));
+    			row.setWalk(mCursor.getInt(9));
+    			row.setSacrifice(mCursor.getInt(10));
+    			row.setHBP(mCursor.getInt(11));
+    			row.setDouble(mCursor.getInt(12));
+    			row.setTriple(mCursor.getInt(13));
+    			row.setHomerun(mCursor.getInt(14));			
+    			retList.add(row);
+    			mCursor.moveToNext();
+            }
+            
+            
+        }
+        return retList;
+    }
  
     public PlayerStats getPlayerStatsbyPlayerIDandSeason(long playerID, int season){
     	PlayerStats row = new PlayerStats();
@@ -331,9 +420,9 @@ public class BatStatsDBHelper
 			row.setWalk(mCursor.getInt(9));
 			row.setSacrifice(mCursor.getInt(10));
 			row.setHBP(mCursor.getInt(11));
-			row.setDouble(mCursor.getInt(11));
-			row.setTriple(mCursor.getInt(12));
-			row.setHomerun(mCursor.getInt(13));			
+			row.setDouble(mCursor.getInt(12));
+			row.setTriple(mCursor.getInt(13));
+			row.setHomerun(mCursor.getInt(14));			
         }
         return row;
     }

@@ -5,26 +5,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Calendar;
 
-import com.mbs.my.bat.stats.R;
-
-import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.util.Log;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -61,19 +52,15 @@ public class AddPlayerActivity extends Activity{
         teamText = (EditText) findViewById(R.id.playerTeam);
         
         //camera setup
-        this.imageView = (ImageView)this.findViewById(R.id.imageView1);
-        Button photoButton = (Button) this.findViewById(R.id.addPic);
-        photoButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
-                startActivityForResult(cameraIntent, CAMERA_REQUEST); 
-            }
-        });
+        imageView = (ImageView)this.findViewById(R.id.imageView1);
+        
         getActionBar().setDisplayHomeAsUpEnabled(true);
         
-        
+        imageView.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+               takePicture();
+            }
+        });
     }
 
     @Override
@@ -197,13 +184,21 @@ public class AddPlayerActivity extends Activity{
 	    	   }
 	    	return true;
 	    }
+	    else if(item.getItemId() == R.id.action_camera){
+	    	takePicture();
+	        return true;
+	    }
+	     
         else{
         	return super.onOptionsItemSelected(item);
         }
 	    
 	}
     
-    
+    private void takePicture(){
+    	cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE); 
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+    }
 
 	private boolean validatePlayer() {
 		boolean valid = true;
