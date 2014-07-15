@@ -4,30 +4,27 @@ package com.mbs.my.bat.stats;
 
 import java.util.List;
 
-import com.mbs.my.bat.stats.R;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
-//import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+//import android.support.v7.app.ActionBarActivity;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity {
 
 	private BatStatsDBHelper db;
 	// Spinner element
@@ -39,7 +36,8 @@ public class MainActivity extends Activity implements OnClickListener {
     private CharSequence mDrawerTitle;
     private ActionBarDrawerToggle mDrawerToggle;
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
               
         super.onCreate(savedInstanceState);
@@ -90,7 +88,17 @@ public class MainActivity extends Activity implements OnClickListener {
         RelativeLayout relLayout = (RelativeLayout)findViewById(R.id.activity_main); 
         relLayout.setBackgroundDrawable(drawable);
         
-        
+        //Open Drawer on Application Launch
+        Intent intent = getIntent();
+		
+		if(intent.getAction() != null && intent.getCategories() != null){
+			mDrawerLayout.postDelayed(new Runnable() {
+	            @Override
+	            public void run() {
+	            	mDrawerLayout.openDrawer(Gravity.LEFT);
+	            }
+	        }, 1000);
+		}
     }
 
 	
@@ -144,16 +152,7 @@ public class MainActivity extends Activity implements OnClickListener {
     	
     }
 
-	@Override
-	public void onClick(View v) {
 	
-		// If load button was clicked
-	      // if (imgLoadPlayer.isPressed()) {
-	          // 	loadPlayer();
-	      // } 
-		
-	}
-
 	@Override
 	public void onBackPressed() {
 		Toast.makeText(getApplicationContext(), "Nowhere to Go! Press Home to Exit MyBatStats.", Toast.LENGTH_LONG).show();
@@ -193,28 +192,8 @@ public class MainActivity extends Activity implements OnClickListener {
     /**
      * Animate the Navigation drawer on launch to show the user it exists
      */
-    @Override
-    protected void onResume() {
-        super.onResume(); 
-        
-        Intent intent = getIntent();
-		Bundle extras = intent.getExtras();
-		boolean launch = true;
-		 
-		if (extras != null) {
-			launch = extras.getBoolean("LAUNCH");			
-		}
-		
-		
-		if(launch){
-			mDrawerLayout.postDelayed(new Runnable() {
-	            @Override
-	            public void run() {
-	            	mDrawerLayout.openDrawer(Gravity.LEFT);
-	            }
-	        }, 1000);
-		}
-        
-    }
+    
+    
+    
 
 }

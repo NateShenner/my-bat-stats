@@ -15,7 +15,7 @@
     <string name="title_players">Players</string>
 
     <!-- Labels -->
-    <string name="label_version">V2.0</string>
+    <string name="label_version">V2.1</string>
     <string name="label_playername">Player Name</string>
     <string name="label_teamname">Team Name</string>
     <string name="label_playerpic">Player Picture</string>

@@ -96,9 +96,11 @@ public class BatStatsDBHelper
  
     private static class DatabaseHelper extends SQLiteOpenHelper 
     {
+    	private Context context;
         DatabaseHelper(Context context) 
         {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
+            this.context = context;
         }
  
         @Override
@@ -118,9 +120,7 @@ public class BatStatsDBHelper
                 db.execSQL("ALTER TABLE " + TABLE_PLAYERSTATS + " ADD COLUMN " + KEY_RBI + " integer");
                 db.execSQL("UPDATE " + TABLE_PLAYERSTATS  + " SET " +
                         KEY_RBI  + "=" + "0");
-                db.execSQL("ALTER TABLE " + TABLE_PLAYERSTATS + " ADD COLUMN " + KEY_PA + " integer");
-                db.execSQL("UPDATE " + TABLE_PLAYERSTATS  + " SET " +
-                        KEY_PA  + "=" + "0");
+                db.execSQL("ALTER TABLE " + TABLE_PLAYERSTATS + " ADD COLUMN " + KEY_PA + " integer");               
                 db.execSQL("ALTER TABLE " + TABLE_PLAYERSTATS + " ADD COLUMN " + KEY_K + " integer");
                 db.execSQL("UPDATE " + TABLE_PLAYERSTATS  + " SET " +
                         KEY_K  + "=" + "0");
@@ -128,19 +128,121 @@ public class BatStatsDBHelper
                 db.execSQL("UPDATE " + TABLE_PLAYERSTATS  + " SET " +
                         KEY_HBP  + "=" + "0");
                 db.execSQL(TABLE_CREATE_GAME_LOG);
+                updatePlateAppearances(db);
+                
             }
-            if(oldVersion == 2){
+            if(oldVersion == 2 || oldVersion == 3){
             	db.execSQL(TABLE_CREATE_GAME_LOG);
             	db.execSQL("ALTER TABLE " + TABLE_PLAYERSTATS + " ADD COLUMN " + KEY_PA + " integer");
-                db.execSQL("UPDATE " + TABLE_PLAYERSTATS  + " SET " +
-                        KEY_PA  + "=" + "0");
                 db.execSQL("ALTER TABLE " + TABLE_PLAYERSTATS + " ADD COLUMN " + KEY_K + " integer");
                 db.execSQL("UPDATE " + TABLE_PLAYERSTATS  + " SET " +
                         KEY_K  + "=" + "0");
                 db.execSQL("ALTER TABLE " + TABLE_PLAYERSTATS + " ADD COLUMN " + KEY_HBP + " integer");
                 db.execSQL("UPDATE " + TABLE_PLAYERSTATS  + " SET " +
                         KEY_HBP  + "=" + "0");
+                updatePlateAppearances(db);
             }
+            if(oldVersion == 4){
+            	List <PlayerStats> playerStatList = getAllStats(db);
+                
+                for(PlayerStats curPlayerStats : playerStatList)
+                {
+                	int walks = curPlayerStats.getWalk();
+                	int sac = curPlayerStats.getSacrifice();
+                	int hbp = curPlayerStats.getHBP();
+                	
+                	String selectQuery = "SELECT " + KEY_ATBAT + " FROM " + TABLE_PLAYERSTATS + " WHERE " + KEY_PLAYERSTATROWID + "=" + curPlayerStats.getID();
+                    Cursor cursor = db.rawQuery(selectQuery, null);
+                    cursor.moveToFirst();
+                	Long atBatsLong = cursor.getLong(0);
+                	int atbats = atBatsLong.intValue();
+                			
+                	
+                	int combinedAppearances = atbats + walks + sac + hbp;
+                	
+                	 db.execSQL("UPDATE " + TABLE_PLAYERSTATS  + " SET " +
+                             KEY_PA  + "=" + combinedAppearances + " WHERE " + KEY_PLAYERSTATROWID + "=" + curPlayerStats.getID());
+                	
+                }
+            }
+            
+        }
+        
+        private void updatePlateAppearances(SQLiteDatabase db){
+        	List <PlayerStats> playerStatList = getAllStats(db);
+            
+            for(PlayerStats curPlayerStats : playerStatList)
+            {
+            	
+            	int walks = curPlayerStats.getWalk();
+            	int sac = curPlayerStats.getSacrifice();
+            	
+            	String selectQuery = "SELECT " + KEY_ATBAT + " FROM " + TABLE_PLAYERSTATS + " WHERE " + KEY_PLAYERSTATROWID + "=" + curPlayerStats.getID();
+                Cursor cursor = db.rawQuery(selectQuery, null);
+                cursor.moveToFirst();
+            	Long atBatsLong = cursor.getLong(0);
+            	int atbats = atBatsLong.intValue();
+            	
+            	int combinedAppearances = atbats + walks + sac;
+            	
+            	
+            	 db.execSQL("UPDATE " + TABLE_PLAYERSTATS  + " SET " +
+                         KEY_PA  + "=" + combinedAppearances + " WHERE " + KEY_PLAYERSTATROWID + "=" + curPlayerStats.getID());
+            	
+            }
+           
+        }
+        
+        public List<PlayerStats> getAllStats(SQLiteDatabase db){
+        	List <PlayerStats> playerStatsList = new ArrayList<PlayerStats>();
+            Cursor mCursor =
+                    db.query(true, TABLE_PLAYERSTATS, new String[] {
+                    		KEY_ROWID,
+                    		KEY_PLAYERID, 
+                    		KEY_SEASON,
+                    		KEY_PA,
+                    		KEY_ATBAT,
+                    		KEY_HIT,
+                    		KEY_RUN,
+                    		KEY_RBI,
+                    		KEY_K,
+                    		KEY_WALK,
+                    		KEY_SAC,
+                    		KEY_HBP,
+                    		KEY_DOUBLE,
+                    		KEY_TRIPLE,
+                    		KEY_HR
+                    		}, 
+                    		null , 
+                    		null,
+                    		null, 
+                    		null, 
+                    		null, 
+                    		null);
+            
+            if (mCursor.moveToFirst()) {
+                do {
+                	PlayerStats row = new PlayerStats();
+        			row.setID(mCursor.getLong(0));
+        			row.setPlayerID(mCursor.getLong(1));
+        			row.setSeason(mCursor.getInt(2));
+        			row.setPA(mCursor.getInt(3));
+        			row.setAtBat(mCursor.getInt(4));
+        			row.setHit(mCursor.getInt(5));
+        			row.setRun(mCursor.getInt(6));
+        			row.setRBI(mCursor.getInt(7));
+        			row.setK(mCursor.getInt(8));
+        			row.setWalk(mCursor.getInt(9));
+        			row.setSacrifice(mCursor.getInt(10));
+        			row.setHBP(mCursor.getInt(11));
+        			row.setDouble(mCursor.getInt(12));
+        			row.setTriple(mCursor.getInt(13));
+        			row.setHomerun(mCursor.getInt(14));		
+                	playerStatsList.add(row);
+                } while (mCursor.moveToNext());
+            }
+            
+            return playerStatsList;
         }
     }    
  
@@ -492,6 +594,61 @@ public class BatStatsDBHelper
         // returning players
         return players;
     }
+    /**
+     * Getting all players
+     * returns list of players
+     * */
+    public List<PlayerStats> getAllStats(){
+    	List <PlayerStats> playerStatsList = new ArrayList<PlayerStats>();
+        Cursor mCursor =
+                db.query(true, TABLE_PLAYERSTATS, new String[] {
+                		KEY_ROWID,
+                		KEY_PLAYERID, 
+                		KEY_SEASON,
+                		KEY_PA,
+                		KEY_ATBAT,
+                		KEY_HIT,
+                		KEY_RUN,
+                		KEY_RBI,
+                		KEY_K,
+                		KEY_WALK,
+                		KEY_SAC,
+                		KEY_HBP,
+                		KEY_DOUBLE,
+                		KEY_TRIPLE,
+                		KEY_HR
+                		}, 
+                		null , 
+                		null,
+                		null, 
+                		null, 
+                		null, 
+                		null);
+        
+        if (mCursor.moveToFirst()) {
+            do {
+            	PlayerStats row = new PlayerStats();
+    			row.setID(mCursor.getLong(0));
+    			row.setPlayerID(mCursor.getLong(1));
+    			row.setSeason(mCursor.getInt(2));
+    			row.setPA(mCursor.getInt(3));
+    			row.setAtBat(mCursor.getInt(4));
+    			row.setHit(mCursor.getInt(5));
+    			row.setRun(mCursor.getInt(6));
+    			row.setRBI(mCursor.getInt(7));
+    			row.setK(mCursor.getInt(8));
+    			row.setWalk(mCursor.getInt(9));
+    			row.setSacrifice(mCursor.getInt(10));
+    			row.setHBP(mCursor.getInt(11));
+    			row.setDouble(mCursor.getInt(12));
+    			row.setTriple(mCursor.getInt(13));
+    			row.setHomerun(mCursor.getInt(14));		
+            	playerStatsList.add(row);
+            } while (mCursor.moveToNext());
+        }
+        
+        return playerStatsList;
+    }
     
     /**
      * Getting all players
@@ -519,6 +676,30 @@ public class BatStatsDBHelper
  
         // returning players
         return seasons;
+    }
+    
+    /**
+     * Updates the Plate Appearance Column on upgrade
+     * 
+     * */
+    private void updatePlateAppearances(){
+         
+    	List <Player> playerList = getAllPlayersList();
+    	
+    	for(Player curPlayer : playerList){
+    		List<Long> seasonList = getAllSeasonsForPlayer(curPlayer.getID());
+    		for(Long season : seasonList){
+    			PlayerStats curPlayerStats = getPlayerStatsbyPlayerIDandSeason(curPlayer.getID(),season.intValue());
+        		int plateAppearances = curPlayerStats.getHit() + curPlayerStats.getK() + curPlayerStats.getWalk() 
+        				+ curPlayerStats.getHBP() + curPlayerStats.getSacrifice();
+        		
+        		updatePlayerStats(curPlayer.getID(), season.intValue(), plateAppearances, curPlayerStats.getAtBat(), 
+        				curPlayerStats.getHit(), curPlayerStats.getRun(), curPlayerStats.getRBI(), curPlayerStats.getK(), 
+        				curPlayerStats.getWalk(), curPlayerStats.getSacrifice(), curPlayerStats.getHBP(), 
+        				curPlayerStats.getDouble(), curPlayerStats.getTriple(), curPlayerStats.getHomerun());
+    		}
+    		
+    	}
     }
     
     /**

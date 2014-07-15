@@ -2,27 +2,19 @@ package com.mbs.my.bat.stats;
 
 import java.util.Calendar;
 
-import com.mbs.my.bat.stats.R;
-
-import android.os.Bundle;
-
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.LabeledIntent;
 import android.database.CursorIndexOutOfBoundsException;
 import android.graphics.Paint;
-import android.graphics.Typeface;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +23,6 @@ public class AddGameActivity extends Activity implements OnClickListener {
 
 	private long playerID = 0;
 	private BatStatsDBHelper db;
-	private Player curPlayer;
 
 	private String seasonAsString;
 	private int season;
@@ -48,7 +39,6 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	private int homerun;
 
 	private TextView curTextView;
-	private TextView newgameText;
 	private EditText seasonText;
 	private TextView paText;
 	private TextView hitText;
@@ -86,7 +76,6 @@ public class AddGameActivity extends Activity implements OnClickListener {
 	private ImageButton btn_hr_Plus;
 	private ImageButton btn_hr_Minus;
 	
-	private Button btn_AddGame;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +90,6 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		if (extras != null) {
 			playerID = extras.getLong("PLAYER_ID");
 		}
-		curPlayer = db.getPlayerByID(playerID);
 		// Set Defaults
 		setDefaults();
 		updateStats();
@@ -502,9 +490,7 @@ public class AddGameActivity extends Activity implements OnClickListener {
 		b1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				curTextView.setText(String.valueOf(np.getValue())); // set the
-																	// value to
-																	// textview
+				curTextView.setText(String.valueOf(np.getValue())); 
 				d.dismiss();
 			}
 		});
