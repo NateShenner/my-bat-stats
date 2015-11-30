@@ -1,0 +1,76 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+
+    <RelativeLayout       
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/baseballdiamond" >
+
+        
+        <TextView
+            android:id="@+id/txt_atbats"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="69dp"
+            android:text="@string/title_mybatstats"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#FFF"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/label_version"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#FFFFFF" />
+    </RelativeLayout>
+    <!-- The navigation drawer -->
+    <LinearLayout 
+        android:id="@+id/left_drawer"
+        android:layout_gravity="start"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#111"
+        >
+    <TextView
+        android:paddingLeft="60dp"
+        android:paddingTop="20dp"
+        android:textColor="#92C792"
+        android:textSize="22sp"
+        android:fontFamily="sans-serif-thin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#111"
+        android:text="@string/title_players"/>
+    <View
+        android:paddingTop="5dp"
+        android:paddingBottom="10dp"
+    	android:layout_width="fill_parent"
+    	android:layout_height="1dip"
+    	android:background="#92C792" />
+    
+	<TextView
+        android:layout_width="wrap_content"
+        android:background="#111"
+        android:layout_height="10dp"/>
+    <ListView
+        android:id="@+id/left_drawer_list"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"        
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_add_player.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\activity_add_player.xml"
+    },
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\edit_player.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\edit_player.xml"
+    },
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\player_home_actions.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\player_home_actions.xml"
+    },
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\player_edit_actions.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\player_edit_actions.xml"
+    },
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\add_player_actions.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\add_player_actions.xml"
+    },
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\activity_main.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\activity_main.xml"
+    },
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\player_home.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\player_home.xml"
+    },
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\android_main_actions.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\android_main_actions.xml"
+    },
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\add_game_actions.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\add_game_actions.xml"
+    },
+    {
+        "merged": "D:\\Android\\Projects\\app\\build\\intermediates\\res\\merged\\debug\\menu\\add_game.xml",
+        "source": "D:\\Android\\Projects\\app\\src\\main\\res\\menu\\add_game.xml"
+    }
+]
