@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shalebgnew"
+    tools:context=".EditPlayerActivity" >
+
+   <TextView
+        android:id="@+id/lbl_playername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/label_playername"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        tools:context=".EditPlayerActivity" />
+
+    <TextView
+        android:id="@+id/lbl_teamname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbl_playername"
+        android:layout_marginTop="60dp"
+        android:text="@string/label_teamname"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        tools:context=".EditPlayerActivity" />
+
+    <TextView
+        android:id="@+id/lbl_playerpic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbl_playername"
+        android:layout_marginTop="100dp"
+        android:text="@string/label_playerpic"
+        android:textSize="16sp"
+        android:textColor="#ffffff"
+        tools:context=".EditPlayerActivity" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignLeft="@+id/lbl_playername"
+        android:layout_marginTop="130dp"
+        android:contentDescription="@string/label_playerpic"
+        android:src="@drawable/face" />
+
+    <EditText
+        android:id="@+id/playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/lbl_playername"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/lbl_playerpic"
+        android:ems="10"
+        android:inputType="textCapSentences" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/playerTeam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/playerName"
+        android:layout_alignTop="@+id/lbl_teamname"
+        android:ems="10"
+        android:inputType="textCapSentences" />
+
+
+</RelativeLayout>

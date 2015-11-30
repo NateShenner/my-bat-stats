@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">My Bat Stats</string>
+
+    <!-- Titles -->
+    <string name="title_mybatstats">My Bat Stats</string>
+    <string name="title_addplayer">Add Player</string>
+    <string name="title_activity_player_home">Player Home</string>
+    <string name="title_activity_add_game">Add Game</string>
+    <string name="title_activity_edit_player">Edit Player</string>
+    <string name="title_confirm_delete_dialog">Delete Player?</string>
+    <string name="title_player_card">Player Card</string>
+    <string name="title_game_log">Game Log</string>
+    <string name="title_players">Players</string>
+
+    <!-- Labels -->
+    <string name="label_version">V2.2</string>
+    <string name="label_playername">Player Name</string>
+    <string name="label_teamname">Team Name</string>
+    <string name="label_playerpic">Player Picture</string>
+    <string name="label_confirm">Confirm</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_season">Season</string>
+    <string name="label_pa">Plate Appearances</string>
+    <string name="label_atbats">At Bats</string>
+    <string name="label_hits">Hits</string>
+    <string name="label_runs">Runs</string>
+    <string name="label_rbis">Runs Batted In</string>
+    <string name="label_k">Strikeouts</string>
+    <string name="label_walk">Walks</string>
+    <string name="label_sac">Sacrifice Hits</string>
+    <string name="label_hbp">Hit By Pitch</string>
+    <string name="label_double">Doubles</string>
+    <string name="label_triple">Triples</string>
+    <string name="label_hr">Homeruns</string>
+    <string name="label_newgame">New Game</string>
+    <string name="label_gamelog">Game Log (Last 10 Games)</string>
+    
+    <string name="title_statstable">Stats</string>
+    <string name="title_calcstatstable">Calculated Stats</string>
+    <!-- Buttons -->
+    <string name="button_addplayer">Add Player</string>
+    <string name="button_loadplayer">Load Player</string>
+    <string name="button_updateplayer">Update Player</string>
+    <string name="button_capturephoto">Capture Photo</string>
+    <string name="button_addgame">Add Game</string>
+    <string name="button_set">Set</string>
+    <string name="button_cancel">Cancel</string>
+
+    <!-- Menu Items -->
+    <string name="menu_addplayer">Add Player</string>
+    <string name="menu_deleteplayer">Delete Player</string>
+    <string name="menu_editplayer">Edit Player</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_addgame">Add Game</string>
+    <string name="menu_clearstats">Clear Stats</string>
+    <string name="menu_save">Save</string>
+    <string name="menu_camera">Camera</string>
+    <string name="action_settings">Settings</string>
+    
+    <string name="spinner_value_career">Career</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    
+
+</resources>
